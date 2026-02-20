@@ -28,7 +28,7 @@ This is a project for the [C# Academy](https://www.thecsharpacademy.com/project/
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/diegopetrola/CodeReviews.Console.SportsResults
-   cd CodeReviews.Console.SportsResults
+   cd CodeReviews.Console.SportsResults/SportsResults.DiegoPetrola
    ```
 
 2. **Install dependencies:**
