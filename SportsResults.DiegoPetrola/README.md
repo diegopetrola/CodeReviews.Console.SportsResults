@@ -18,7 +18,7 @@ This is a project for the [C# Academy](https://www.thecsharpacademy.com/project/
 - **Scraping:** Microsoft Playwright & HtmlAgilityPack
 - **Communication:** System.Net.Mail (SMTP)
 
-## 📋 Prerequisites
+## Prerequisites
 
 1. **.NET SDK** (Version 9.0 or later).
 2. **Playwright Browsers:** Playwright requires specific browser binaries to run.
