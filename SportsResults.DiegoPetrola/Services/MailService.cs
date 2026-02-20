@@ -8,20 +8,20 @@ public class MailService(IOptions<MailOptions> options)
 {
     public void SendMail(string body)
     {
-        var smtpClient = new SmtpClient("localhost", 25)
+        var smtpClient = new SmtpClient(options.Value.Host, options.Value.Port)
         {
-            EnableSsl = false // Papercut does not use SSL
+            EnableSsl = options.Value.UseSsl
         };
 
         var mailMessage = new MailMessage
         {
-            From = new MailAddress("test@example.com"),
-            Subject = "Test Email from .NET",
-            Body = "This is a test message intercepted by Papercut.",
-            IsBodyHtml = true
+            From = new MailAddress(options.Value.From),
+            Subject = options.Value.Subject,
+            Body = body,
+            IsBodyHtml = true,
         };
 
-        mailMessage.To.Add("recipient@example.com");
+        mailMessage.To.Add(options.Value.To);
         smtpClient.Send(mailMessage);
     }
 }

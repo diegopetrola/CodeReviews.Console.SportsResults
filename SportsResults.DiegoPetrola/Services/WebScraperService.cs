@@ -26,20 +26,26 @@ public class WebScraperService
         var matches = new List<GameSummary>();
         var summaries = document.DocumentNode.SelectNodes("//div[contains(@class, 'game_summary')]");
 
-        // Something really strange is happening and the search for class 'game_summary'
-        // is returning duplicated (and slightly different) results which forced me to do this weird loop here.
-        for (int i = summaries.Count - 1; i >= summaries.Count / 2; i--)
+        foreach (var summary in summaries)
         {
-            HtmlNode teams = summaries[i].SelectSingleNode(".//table[2]/tbody");
+            HtmlNode teams = summary.SelectSingleNode(".//table[2]/tbody");
+
+            var team1 = ExtractTeamPerformance(teams.SelectSingleNode(".//tr[1]"));
+            var team2 = ExtractTeamPerformance(teams.SelectSingleNode(".//tr[2]"));
+            if (team1 is null)
+                continue;
+            if (team2 is null)
+                continue;
+
             var match = new GameSummary
             {
-                Team1 = ExtractTeamPerformance(teams.SelectSingleNode(".//tr[1]")),
-                Team2 = ExtractTeamPerformance(teams.SelectSingleNode(".//tr[2]"))
+                Team1 = team1,
+                Team2 = team2,
             };
 
             if (match.Team1.TotalScore > match.Team2.TotalScore)
                 match.Winner = match.Team1;
-            else if (match.Team1.TotalScore > match.Team2.TotalScore)
+            else if (match.Team1.TotalScore < match.Team2.TotalScore)
                 match.Winner = match.Team2;
 
             Console.WriteLine($"{match.Team1.Name}-{match.Team1.TotalScore} VS {match.Team2.Name}-{match.Team2.TotalScore}");
@@ -49,7 +55,7 @@ public class WebScraperService
         return matches;
     }
 
-    private static TeamPerformance ExtractTeamPerformance(HtmlNode teamNode)
+    private static TeamPerformance? ExtractTeamPerformance(HtmlNode teamNode)
     {
         var team = new TeamPerformance
         {
@@ -57,6 +63,8 @@ public class WebScraperService
         };
 
         HtmlNodeCollection rounds = teamNode.SelectNodes("./td[@class='center']");
+        if (rounds is null)
+            return null;
         foreach (HtmlNode roundScore in rounds)
             team.Score.Add(int.Parse(roundScore.InnerText));
 
