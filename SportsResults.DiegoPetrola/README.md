@@ -7,7 +7,8 @@ This is a project for the [C# Academy](https://www.thecsharpacademy.com/project/
 ## Features
 
 - **Automated Daily Scraping:** Uses `PeriodicTimer` to run once every 24 hours.
-- **Headless Web Scraping:** Utilizes **Playwright** to handle modern web rendering and **HtmlAgilityPack** for fast DOM parsing.
+- **Headless Web Scraping:** Utilizes **Playwright** to handle TLS handshakes and avoid `403 Forbidden` errors
+- **HtmlAgilityPack** for fast DOM parsing.
 - **HTML Email Reports:** Generates a clean, tabled summary of Team 1 vs. Team 2, including period scores and the match winner.
 - **Robust Logging:** Integrated with .NET `ILogger` for tracking service health and errors.
 
